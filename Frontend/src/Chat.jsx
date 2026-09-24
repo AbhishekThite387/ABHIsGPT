@@ -11,6 +11,11 @@ function Chat() {
     const[latestReply, setLatestReply] = useState(null);
 
     useEffect( () => {
+
+        if(reply === null){
+            setLatestReply(null);
+            return;
+        }
         
         if(!prevChats?.length) return;
 
@@ -46,10 +51,21 @@ function Chat() {
                 }
 
                 {
-                    prevChats.length > 0 && latestReply !== null &&
-                    <div className="gptDiv" key={"typing"}>
-                        <ReactMarkDown rehypePlugins={[rehypeHighlight]}>{latestReply}</ReactMarkDown>
-                    </div>
+                    prevChats.length > 0 && (
+                        <>
+                            {
+                                latestReply === null ? (
+                                    <div className="gptDiv" key={"non-typing"}>
+                                        <ReactMarkDown rehypePlugins={[rehypeHighlight]}>{prevChats[prevChats.length-1].content}</ReactMarkDown>
+                                    </div>
+                                ) : (
+                                    <div className="gptDiv" key={"typing"}>
+                                        <ReactMarkDown rehypePlugins={[rehypeHighlight]}>{latestReply}</ReactMarkDown>
+                                    </div>
+                                )
+                            }
+                        </>
+                    )
                 }
             </div>
         </>
