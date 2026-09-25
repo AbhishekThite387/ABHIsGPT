@@ -21,7 +21,7 @@ function Sidebar () {
 
     useEffect(() => {
         getAllThreads();
-    }, [currThreadId])
+    }, [])
 
     const createNewChat= () => {
         setNewChat(true);
@@ -32,15 +32,30 @@ function Sidebar () {
     }
 
     const changeThread = async (newThreadId) => {
+        console.log("CLICKED THREAD:", newThreadId);
         setCurrThreadId(newThreadId);
 
         try {
             const response = await fetch(`http://localhost:8080/api/thread/${newThreadId}`);
+            console.log("RESPONSE STATUS:", response.status);
             const res = await response.json();
+            
+            console.log("THREAD RESPONSE:", res);
             console.log(res);
             setPrevChats(res.messages);
             setNewChat(false);
             setReply(null);
+        } catch(err) {
+            console.log(err);
+        }
+    }
+
+    const deleteThread = async (threadId) => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/thread/${threadId}`,{method: "DELETE"});
+            const res = await response.json();
+            console.log(res);
+            
         } catch(err) {
             console.log(err);
         }
@@ -58,7 +73,15 @@ function Sidebar () {
                     allThreads?.map((thread,idx) => (
                         <li key={idx}
                             onClick={() => changeThread(thread.threadId)}
-                        >{thread.title}</li>
+                        >
+                            {thread.title}
+                            <i className="fa-solid fa-trash"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    deleteThread(thread.threadId);
+                                }}
+                            ></i>
+                        </li>
                     ))
                 }
             </ul>
