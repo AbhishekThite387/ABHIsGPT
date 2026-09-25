@@ -2,6 +2,7 @@ import "./Chat.css";
 import { useContext, useEffect, useState , useRef} from "react";
 import { MyContext } from "./MyContext";
 import ReactMarkDown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
 
@@ -78,11 +79,11 @@ function Chat() {
                             {
                                 latestReply === null ? (
                                     <div className="gptDiv" key={"non-typing"}>
-                                        <ReactMarkDown rehypePlugins={[rehypeHighlight]}>{prevChats[prevChats.length-1].content}</ReactMarkDown>
+                                        <ReactMarkDown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>{prevChats[prevChats.length-1].content}</ReactMarkDown>
                                     </div>
                                 ) : (
                                     <div className="gptDiv" key={"typing"}>
-                                        <ReactMarkDown rehypePlugins={[rehypeHighlight]}>{latestReply}</ReactMarkDown>
+                                        <ReactMarkDown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>{latestReply}</ReactMarkDown>
                                     </div>
                                 )
                             }
