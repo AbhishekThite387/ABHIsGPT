@@ -55,7 +55,14 @@ function Sidebar () {
             const response = await fetch(`http://localhost:8080/api/thread/${threadId}`,{method: "DELETE"});
             const res = await response.json();
             console.log(res);
-            
+
+            //updated threads re-render
+            setAllThreads(prev => prev.filter(thread => thread.threadId !== threadId));
+
+            if(threadId === currThreadId){
+                createNewChat();
+            }
+
         } catch(err) {
             console.log(err);
         }
