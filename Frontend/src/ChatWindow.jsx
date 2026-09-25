@@ -7,7 +7,7 @@ import {ScaleLoader} from "react-spinners";
 function ChatWindow () {
     const{prompt , setPrompt , reply , setReply , currThreadId, prevChats , setPrevChats ,setNewChat} = useContext(MyContext);
     const[loading , setLoading] = useState(false);
-    const[isOpen , setIsOpen] = useState(true);
+    const[isOpen , setIsOpen] = useState(false);
 
     const getReply = async () => {
         setLoading(true);

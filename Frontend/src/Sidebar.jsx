@@ -5,7 +5,7 @@ import {v1 as uuidv1} from "uuid";
 
 function Sidebar () {
 
-    const {allThreads , setAllThreads , currThreadId , setNewChat, setPrompt , setReply , setCurrThreadId , setPrevChats} = useContext(MyContext);
+    const {allThreads , setAllThreads , currThreadId , reply , setNewChat, setPrompt , setReply , setCurrThreadId , setPrevChats} = useContext(MyContext);
 
     const getAllThreads = async () => {
         try {
@@ -21,7 +21,7 @@ function Sidebar () {
 
     useEffect(() => {
         getAllThreads();
-    }, [])
+    }, [currThreadId,reply])
 
     const createNewChat= () => {
         setNewChat(true);
@@ -80,6 +80,7 @@ function Sidebar () {
                     allThreads?.map((thread,idx) => (
                         <li key={idx}
                             onClick={() => changeThread(thread.threadId)}
+                            className={thread.threadId === currThreadId ? "highlighted": " "}
                         >
                             {thread.title}
                             <i className="fa-solid fa-trash"
